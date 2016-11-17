@@ -97,14 +97,17 @@ namespace CsvXlsImport {
         /// <param name="returnType"></param>
         /// <returns></returns>
         public object GetValue(string fieldName, Type returnType) {
-            var s = GetString(fieldName);
+            return Convert(GetString(fieldName), returnType);
+        }
+
+        public static object Convert(object value, Type returnType) {
+            var s = value?.ToString();
             if (returnType == typeof(string)) return s;
             if (returnType == typeof(DateTime) || returnType == typeof(DateTime?) && !string.IsNullOrEmpty(s)) {
                 return new DateTimeConverter().ConvertFromString(s);
             }
-            var o = GetString(fieldName);
             var conv = TypeDescriptor.GetConverter(returnType);
-            return conv.IsValid(o) ? conv.ConvertFrom(o) : null;
+            return conv.IsValid(value) ? conv.ConvertFrom(value) : null;
         }
     }
 

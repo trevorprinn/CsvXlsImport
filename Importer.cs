@@ -210,8 +210,13 @@ namespace CsvXlsImport {
         internal void Import(T target, ImportRecord row, int rowNbr) {
             if (TargetProperty == null) return;
             try {
-                object val = row.GetValue(FieldName, TargetProperty.PropertyType);
-                if (ConvertFunc != null) val = ConvertFunc(val);
+                object val;
+                if (ConvertFunc == null) {
+                    val = row.GetValue(FieldName, TargetProperty.PropertyType);
+                } else { 
+                    val = ConvertFunc(row.GetValue(FieldName));
+                    val = ImportRecord.Convert(val, TargetProperty.PropertyType);
+                }
                 if (ImportTarget.ConvertFunc != null) val = ImportTarget.ConvertFunc(val);
                 TargetProperty.SetValue(target, val);
             } catch (Exception ex) {
