@@ -51,6 +51,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicCsvTests.cs" />
+    <Compile Include="BasicImportModels.cs" />
+    <Compile Include="BasicXlsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\CsvImport1.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\XlsImport1.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

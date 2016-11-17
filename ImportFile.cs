@@ -102,7 +102,7 @@ namespace CsvXlsImport {
             if (returnType == typeof(DateTime) || returnType == typeof(DateTime?) && !string.IsNullOrEmpty(s)) {
                 return new DateTimeConverter().ConvertFromString(s);
             }
-            var o = GetValue(fieldName);
+            var o = GetString(fieldName);
             var conv = TypeDescriptor.GetConverter(returnType);
             return conv.IsValid(o) ? conv.ConvertFrom(o) : null;
         }
