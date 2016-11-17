@@ -1,0 +1,6 @@
+SVal,IVal,FVal,DVal,DecVal
+abcde,1,1.5,2.0000001,3.4
+"xyz,abc",2,3,2,5
+,,,,
+"a
+b",,1,2,3

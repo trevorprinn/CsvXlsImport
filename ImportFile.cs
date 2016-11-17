@@ -11,7 +11,7 @@ namespace CsvXlsImport {
     /// <summary>
     /// Base class for classes that implement reading from a data source for import.
     /// </summary>
-    abstract class ImportFile : IDisposable {
+    public abstract class ImportFile : IDisposable {
         /// <summary>
         /// This should be filled in by the implementing classes constructor.
         /// </summary>
@@ -27,7 +27,7 @@ namespace CsvXlsImport {
         /// using yield return.
         /// </summary>
         /// <returns></returns>
-        public abstract IEnumerable<ImportRecord> GetRecords();
+        internal abstract IEnumerable<ImportRecord> GetRecords();
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -111,7 +111,7 @@ namespace CsvXlsImport {
     /// <summary>
     /// Implements reading from an Excel spreadsheet (the first in the workbook).
     /// </summary>
-    class XlsImportFile : ImportFile {
+    public class XlsImportFile : ImportFile {
         private XlsFile _xls;
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace CsvXlsImport {
             }
         }
 
-        public override IEnumerable<ImportRecord> GetRecords() {
+        internal override IEnumerable<ImportRecord> GetRecords() {
             for (int r = 2; r <= _xls.RowCount; r++) {
                 yield return getRecord(r);
             }
@@ -152,8 +152,9 @@ namespace CsvXlsImport {
     /// <summary>
     /// Implements reading from a csv file.
     /// </summary>
-    class CsvImportFile : ImportFile {
+    public class CsvImportFile : ImportFile {
         private string _filename;
+        private StreamReader _reader;
 
         public CsvImportFile(string filename) {
             _filename = filename;
@@ -161,12 +162,11 @@ namespace CsvXlsImport {
             using (var reader = new StreamReader(filename)) {
                 _fieldNames = reader.GetCsvFieldNames().ToList();
             }
+            _reader = new StreamReader(filename);
         }
 
-        public override IEnumerable<ImportRecord> GetRecords() {
-            using (var reader = new StreamReader(_filename)) {
-                return reader.FromCsv<ReadModel>().Select(m => m.GetData());
-            }
+        internal override IEnumerable<ImportRecord> GetRecords() {
+            return _reader.FromCsv<ReadModel>().Select(m => m.GetData());
         }
 
         /// <summary>
@@ -176,11 +176,16 @@ namespace CsvXlsImport {
         /// </summary>
         private class ReadModel {
             [CsvData]
-            public List<CsvField> Fields { get; set; }
+            public IEnumerable<CsvField> Fields { get; set; }
 
             public ImportRecord GetData() {
                 return new ImportRecord(Fields.Select(f => f.Name), Fields.Select(f => f.Value));
             }
+        }
+
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+            if (disposing) _reader.Dispose();
         }
     }
 }

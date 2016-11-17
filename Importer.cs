@@ -24,7 +24,7 @@ namespace CsvXlsImport {
     /// class and passing in an instance in the constructor.
     /// </summary>
     /// <typeparam name="T">The type of the objects to be created from the imported data.</typeparam>
-    class Importer<T> where T : class, new() {
+    public class Importer<T> where T : class, new() {
 
         // The source data.
         private ImportFile _importFile;
@@ -174,7 +174,7 @@ namespace CsvXlsImport {
     /// A field in the input data that is being imported from.
     /// </summary>
     /// <typeparam name="T">The type of object being imported into (the model)</typeparam>
-    class ImportField<T> {
+    public class ImportField<T> {
         /// <summary>
         /// The name of the field in the input data (from the column header).
         /// </summary>
@@ -186,6 +186,11 @@ namespace CsvXlsImport {
         /// or by the import dialogue (FormImportFields).
         /// </summary>
         public ImportTargetField<T> ImportTarget { get; set; }
+
+        /// <summary>
+        /// This can be set to process data before putting on pulling it out of the source.
+        /// </summary>
+        public Func<object, object> ConvertFunc { get; set; }
 
         public ImportField(string fieldName) {
             FieldName = fieldName;
@@ -202,10 +207,11 @@ namespace CsvXlsImport {
         /// <param name="target"></param>
         /// <param name="row"></param>
         /// <param name="rowNbr"></param>
-        public void Import(T target, ImportRecord row, int rowNbr) {
+        internal void Import(T target, ImportRecord row, int rowNbr) {
             if (TargetProperty == null) return;
             try {
                 object val = row.GetValue(FieldName, TargetProperty.PropertyType);
+                if (ConvertFunc != null) val = ConvertFunc(val);
                 if (ImportTarget.ConvertFunc != null) val = ImportTarget.ConvertFunc(val);
                 TargetProperty.SetValue(target, val);
             } catch (Exception ex) {
@@ -227,7 +233,7 @@ namespace CsvXlsImport {
     /// A property on the model that is being imported into.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class ImportTargetField<T> {
+    public class ImportTargetField<T> {
         /// <summary>
         /// The name of the property. This can be modified to something friendlier after creating the Importer if necessary.
         /// </summary>
@@ -274,7 +280,7 @@ namespace CsvXlsImport {
     }
 
 
-    class ImportException : ApplicationException {
+    public class ImportException : ApplicationException {
         public ImportException() { }
 
         public ImportException(string message, Exception innerException) : base(message, innerException) { }
