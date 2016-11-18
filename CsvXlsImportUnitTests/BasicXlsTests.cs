@@ -29,7 +29,7 @@ namespace CsvXlsImportUnitTests {
         [TestMethod]
         public void XlsImport2() {
             List<Import2Model> data;
-            using (var ifile = new CsvImportFile("Data\\CsvImport1.csv")) {
+            using (var ifile = new XlsImportFile("Data\\XlsImport1.xlsx")) {
                 var imp = new Importer<Import2Model>(ifile);
                 data = imp.Import().ToList();
             }

@@ -25,14 +25,14 @@
         private void InitializeComponent() {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gridFields = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.listTargets = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -77,19 +77,6 @@
             this.gridFields.TabIndex = 1;
             this.gridFields.DragDrop += new System.Windows.Forms.DragEventHandler(this.gridFields_DragDrop);
             this.gridFields.DragOver += new System.Windows.Forms.DragEventHandler(this.gridFields_DragOver);
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "ColumnName";
-            this.Column1.HeaderText = "Column";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.DataPropertyName = "TargetName";
-            this.Column2.HeaderText = "Meaning";
-            this.Column2.Name = "Column2";
             // 
             // label1
             // 
@@ -153,6 +140,19 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "FieldName";
+            this.Column1.HeaderText = "Field";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "TargetName";
+            this.Column2.HeaderText = "Meaning";
+            this.Column2.Name = "Column2";
+            // 
             // FormImportFields
             // 
             this.AcceptButton = this.btnOK;
@@ -184,11 +184,11 @@
         private System.Windows.Forms.DataGridView gridFields;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ListBox listTargets;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }

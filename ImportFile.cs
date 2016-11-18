@@ -96,6 +96,7 @@ namespace CsvXlsImport {
         /// <param name="fieldName"></param>
         /// <param name="returnType"></param>
         /// <returns></returns>
+        /// <remarks>This converts the value read to a string and then converts that.</remarks>
         public object GetValue(string fieldName, Type returnType) {
             return Convert(GetString(fieldName), returnType);
         }
@@ -103,8 +104,12 @@ namespace CsvXlsImport {
         public static object Convert(object value, Type returnType) {
             var s = value?.ToString();
             if (returnType == typeof(string)) return s;
-            if (returnType == typeof(DateTime) || returnType == typeof(DateTime?) && !string.IsNullOrEmpty(s)) {
-                return new DateTimeConverter().ConvertFromString(s);
+            if (returnType == typeof(DateTime) || returnType == typeof(DateTime?)) {
+                double dt;
+                if (double.TryParse(s, out dt)) { // Probably from Excel
+                    return DateTime.FromOADate(dt);
+                }
+                return string.IsNullOrWhiteSpace(s) ? null : new DateTimeConverter().ConvertFrom(s);
             }
             var conv = TypeDescriptor.GetConverter(returnType);
             return conv.IsValid(value) ? conv.ConvertFrom(value) : null;

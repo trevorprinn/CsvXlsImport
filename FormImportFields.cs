@@ -18,6 +18,7 @@ namespace CsvXlsImport {
             _importer = importer;
             gridFields.AutoGenerateColumns = false;
             gridFields.DataSource = importer.ImportFields.ToList();
+            listTargets.Items.Add(ImportTargetField<T>.IgnoreField);
             listTargets.Items.AddRange(importer.TargetFields.ToArray());
         }
 

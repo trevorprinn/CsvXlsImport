@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvXlsImport", "CsvXlsImpor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvXlsImportUnitTests", "CsvXlsImportUnitTests\CsvXlsImportUnitTests.csproj", "{A5737F9F-27AC-4AB2-BE47-C54845D9322B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectionTest", "SelectionTest\SelectionTest.csproj", "{7735A2B4-E5F4-4FCE-BCB4-AFA2EFF22CAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A5737F9F-27AC-4AB2-BE47-C54845D9322B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5737F9F-27AC-4AB2-BE47-C54845D9322B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5737F9F-27AC-4AB2-BE47-C54845D9322B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7735A2B4-E5F4-4FCE-BCB4-AFA2EFF22CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7735A2B4-E5F4-4FCE-BCB4-AFA2EFF22CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7735A2B4-E5F4-4FCE-BCB4-AFA2EFF22CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7735A2B4-E5F4-4FCE-BCB4-AFA2EFF22CAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

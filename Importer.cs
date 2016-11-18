@@ -75,7 +75,8 @@ namespace CsvXlsImport {
 
         /// <summary>
         /// Tries to set up the Target property for each import field by matching up the names of both.
-        /// This is only an initial attempt - the user can override the matchings if DisplaySelectionForm is called.
+        /// This is only an initial attempt - they can be changed in code afterwards and the user 
+        /// override the matchings if DisplaySelectionForm is called.
         /// </summary>
         protected virtual void Guess() {
             foreach (var impf in ImportFields) {
@@ -115,8 +116,9 @@ namespace CsvXlsImport {
             foreach (var row in _importFile.GetRecords()) {
                 T model = new T();
                 foreach (var impFld in ImportFields) {
-                    impFld.Import(model, row, rowNbr++);
+                    impFld.Import(model, row, rowNbr);
                 }
+                rowNbr++;
                 yield return model;
             }
         }
@@ -151,7 +153,6 @@ namespace CsvXlsImport {
             foreach (var row in _importFile.GetRecords()) {
                 T rec = new T();
                 T exist = null;
-                rowNbr++;
                 if (keyField != null) {
                     keyField.Import(rec, row, rowNbr);
                     exist = ExistingItem(table, rec);
@@ -159,6 +160,7 @@ namespace CsvXlsImport {
                 }
                 foreach (var f in usedFields) f.Import(rec, row, rowNbr);
                 if (exist == null && Include(rec)) newRecs.Add(rec);
+                rowNbr++;
             }
             table.AddRange(newRecs);
         }
@@ -200,6 +202,11 @@ namespace CsvXlsImport {
         /// The property the data will be copied into.
         /// </summary>
         public PropertyInfo TargetProperty => ImportTarget?.Prop;
+
+        /// <summary>
+        /// The name of the target property.
+        /// </summary>
+        public string TargetName => ImportTarget?.Name;
 
         /// <summary>
         /// Copies the data for this field from one row of the input into the target object.
