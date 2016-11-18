@@ -112,8 +112,14 @@ namespace CsvXlsImport {
         /// </summary>
         /// <returns>A model object for each row in the source.</returns>
         public IEnumerable<T> Import() {
+            return import();
+        }
+
+        private IEnumerable<T> import(int rowCount = -1) {
             int rowNbr = 1;
-            foreach (var row in _importFile.GetRecords()) {
+            var rows = _importFile.GetRecords();
+            if (rowCount > 0) rows = rows.Take(rowCount);
+            foreach (var row in rows) {
                 T model = new T();
                 foreach (var impFld in ImportFields) {
                     impFld.Import(model, row, rowNbr);
@@ -121,6 +127,16 @@ namespace CsvXlsImport {
                 rowNbr++;
                 yield return model;
             }
+            _importFile.Reset();
+        }
+
+        /// <summary>
+        /// Gets a sample of rows from the beginning of the source data.
+        /// </summary>
+        /// <param name="rowCount"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetSample(int rowCount = 5) {
+            return import(rowCount);
         }
 
         /// <summary>

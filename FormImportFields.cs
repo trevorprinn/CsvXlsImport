@@ -20,6 +20,12 @@ namespace CsvXlsImport {
             gridFields.DataSource = importer.ImportFields.ToList();
             listTargets.Items.Add(ImportTargetField<T>.IgnoreField);
             listTargets.Items.AddRange(importer.TargetFields.ToArray());
+
+            showSample();
+        }
+
+        private void showSample() {
+            gridData.DataSource = _importer.GetSample().ToList();
         }
 
         private void listTargets_MouseDown(object sender, MouseEventArgs e) {
@@ -43,6 +49,8 @@ namespace CsvXlsImport {
             var field = (ImportField<T>)gridFields.Rows[rowIx].DataBoundItem;
             field.ImportTarget = target;
             gridFields.DataSource = _importer.ImportFields.ToList();
+
+            showSample();
         }
     }
 }

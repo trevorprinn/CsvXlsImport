@@ -29,6 +29,11 @@ namespace CsvXlsImport {
         /// <returns></returns>
         internal abstract IEnumerable<ImportRecord> GetRecords();
 
+        /// <summary>
+        /// Puts the reader back to the beginning after getting sample rows.
+        /// </summary>
+        internal abstract void Reset();
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -149,6 +154,8 @@ namespace CsvXlsImport {
             return new ImportRecord(_fieldNames, vals);
         }
 
+        internal override void Reset() { }
+
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
             if (disposing) {
@@ -189,6 +196,11 @@ namespace CsvXlsImport {
             public ImportRecord GetData() {
                 return new ImportRecord(Fields.Select(f => f.Name), Fields.Select(f => f.Value));
             }
+        }
+
+        internal override void Reset() {
+            _reader.Dispose();
+            _reader = new StreamReader(_filename);
         }
 
         protected override void Dispose(bool disposing) {

@@ -17,7 +17,7 @@ namespace SelectionTest {
         }
 
         private void btnOpen_Click(object sender, EventArgs e) {
-            using (var impFile = new XlsImportFile("Data\\PriceData.xlsx")) {
+            using (var impFile = sender == btnOpenXls ? (ImportFile)new XlsImportFile("Data\\PriceData.xlsx") : new CsvImportFile("Data\\PriceData.csv")) {
                 var importer = new Importer<PriceModel>(impFile);
                 if (importer.DisplaySelectionForm(this)) {
                     gridData.DataSource = importer.Import().ToList();
