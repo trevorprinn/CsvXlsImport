@@ -203,7 +203,7 @@ namespace CsvXlsImport {
         /// This is normally set either by the Guess routine in the Importer,
         /// or by the import dialogue (FormImportFields).
         /// </summary>
-        public ImportTargetField<T> ImportTarget { get; set; }
+        public ImportTargetField<T> ImportTarget { get; set; } = ImportTargetField<T>.IgnoreField;
 
         /// <summary>
         /// This can be set to process data before putting on pulling it out of the source.
