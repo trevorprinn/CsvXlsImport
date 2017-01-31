@@ -48,7 +48,7 @@ namespace CsvXlsImport {
             }
         }
 
-        public static void ToCsv<T>(this IEnumerable<T> source, StreamWriter output) {
+        public static void ToCsv<T>(this IEnumerable<T> source, TextWriter output) {
             bool first = true;
             Regex re = new Regex(@"^\d+(|\.\d+)$");
             foreach (var element in source) {
@@ -69,11 +69,11 @@ namespace CsvXlsImport {
             output.Flush();
         }
 
-        public static IEnumerable<string> GetCsvFieldNames(this StreamReader input) {
+        public static IEnumerable<string> GetCsvFieldNames(this TextReader input) {
             return parseCsvRecord(input);
         }
 
-        public static IEnumerable<T> FromCsv<T>(this StreamReader input) {
+        public static IEnumerable<T> FromCsv<T>(this TextReader input) {
             // Get the field names from the csv file
             var fnames = parseCsvRecord(input);
             if (fnames == null) yield break;
@@ -126,7 +126,7 @@ namespace CsvXlsImport {
             }
         }
 
-        public static int CountCsv(this StreamReader input) {
+        public static int CountCsv(this TextReader input) {
             int count = -1;
             while (parseCsvRecord(input) != null) count++;
             return count;
@@ -134,7 +134,7 @@ namespace CsvXlsImport {
 
         private static Regex _csvParser = new Regex("(?:^|,)(\\\"(?:[^\\\"]+|\\\"\\\")*\\\"|[^,]*)");
 
-        private static string[] parseCsvRecord(StreamReader input) {
+        private static string[] parseCsvRecord(TextReader input) {
             string rowData;
             do {
                 rowData = getCsvRowData(input);
@@ -157,7 +157,7 @@ namespace CsvXlsImport {
 
         private static Regex _quoteCounter = new Regex("\\\"");
 
-        private static string getCsvRowData(StreamReader input) {
+        private static string getCsvRowData(TextReader input) {
             int quoteCount = 0;
             StringBuilder s = new StringBuilder();
             string line = input.ReadLine();
